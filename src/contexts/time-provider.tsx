@@ -10,11 +10,11 @@ type TimerContextType = {
   setNextState: () => void;
 
   focus: string;
-  setFocus: (time: string) => void;
+  setFocus: (time: string) => boolean;
   short: string;
-  setShort: (time: string) => void;
+  setShort: (time: string) => boolean;
   long: string;
-  setLong: (time: string) => void;
+  setLong: (time: string) => boolean;
 }
 
 type Config = {
@@ -39,11 +39,11 @@ const defaultContext: TimerContextType = {
   setNextState: () => {},
 
   focus: "",
-  setFocus: (time: string) => {},
+  setFocus: (time: string): boolean => false,
   short: "",
-  setShort: (time: string) => {},
+  setShort: (time: string): boolean => false,
   long: "",
-  setLong: (time: string) => {},
+  setLong: (time: string): boolean => false,
 };
 
 const TimerContext = createContext<TimerContextType>(defaultContext);
@@ -57,9 +57,11 @@ const DEFAULT_LONG = "15:00"
 const verifyTime = (time: string): boolean => {
   if (!time.split("").includes(":")) return false;
   const [min, sec] = time.split(":");
-  if (min.length !== 2) return false
-  if (sec.length !== 2) return false
-  if (parseInt(sec) > 59) return false
+  if (isNaN(parseInt(min))) return false;
+  if (isNaN(parseInt(sec))) return false;
+  if (min.length !== 2) return false;
+  if (sec.length !== 2) return false;
+  if (parseInt(sec) > 59) return false;
   return true
 }
 
@@ -152,9 +154,7 @@ const TimeProvider = ({
   }
 
   const setNextState = () => {
-    const newTimer = nextTimer(timer, config)
-    console.log(newTimer);
-    setTimer(newTimer)
+    setTimer(nextTimer(timer, config));
   }
 
   const renewState = () =>  {
@@ -174,28 +174,34 @@ const TimeProvider = ({
     }
   }
 
-  const setFocus = (time: string) => {
+  const setFocus = (time: string): boolean => {
     if (verifyTime(time)) {
       setFocusLocal(time);
       config.focus.time = time;
       if (!timer.ticking) renewState();
+      return true
     }
+    return false
   }
 
-  const setShort = (time: string) => {
+  const setShort = (time: string): boolean => {
     if (verifyTime(time)) {
       setShortLocal(time)
       config.short.time = time;
-      if (!timer.ticking) renewState();
+      if (!timer.ticking) renewState()
+      return true
     }
+    return false
   }
 
-  const setLong = (time: string) => {
+  const setLong = (time: string): boolean => {
     if (verifyTime(time)) {
       setLongLocal(time)
       config.long.time = time;
-      if (!timer.ticking) renewState();
+      if (!timer.ticking) renewState()
+      return true
     }
+    return false
   }
 
   useEffect(() => {
