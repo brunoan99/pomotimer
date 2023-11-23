@@ -21,26 +21,30 @@ const alarmClockFont = localFont({
 })
 
 export function WatchCard() {
-  const { time, msg, ticking, setTicking } = React.useContext(TimerContext);
+  const { time, msg, ticking, setTicking, setNextState } = React.useContext(TimerContext);
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-[525px]">
       <CardHeader>
       </CardHeader>
       <CardContent>
         <div className={cn(
           alarmClockFont.className,
-          "w-full flex justify-center text-[64px] select-none"
+          "w-full flex justify-center text-[96px] select-none"
         )}>
           {time}
         </div>
-        <div className={cn(atiknson.className,"w-full flex justify-center text-[36px] select-none")}>
+        <div className={cn(atiknson.className,"w-full flex justify-center text-[48px] select-none")}>
           {msg}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-evenly">
-        <Button onClick={(e) => setTicking()}>{ ticking ? "Pause" : "Resume" }</Button>
-        <Button>Next</Button>
+      <CardFooter className="flex justify-evenly mt-4">
+        <Button onClick={setTicking} className="w-[96px]">
+          { ticking ? "Pause" : "Resume" }
+        </Button>
+        <Button onClick={setNextState} className="w-[96px]">
+          Next
+        </Button>
       </CardFooter>
     </Card>
   )

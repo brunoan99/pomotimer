@@ -1,3 +1,6 @@
+"use client";
+
+import * as React from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -11,8 +14,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ThemeToggle } from "./theme-toggle"
 import { Settings } from 'lucide-react';
+import { TimerContext } from "@/contexts/time-provider";
 
 export function DialogDemo() {
+  const { focus, setFocus, short, setShort, long, setLong } = React.useContext(TimerContext);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -41,8 +47,9 @@ export function DialogDemo() {
             </Label>
             <Input
               id="focus"
-              defaultValue="25:00"
+              defaultValue={focus}
               className="col-span-3"
+              onChange={(e) => setFocus(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -51,8 +58,9 @@ export function DialogDemo() {
             </Label>
             <Input
               id="short"
-              defaultValue="5:00"
+              defaultValue={short}
               className="col-span-3"
+              onChange={(e) => setShort(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -61,8 +69,9 @@ export function DialogDemo() {
             </Label>
             <Input
               id="long"
-              defaultValue="15:00"
+              defaultValue={long}
               className="col-span-3"
+              onChange={(e) => setLong(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-2 items-center gap-4">

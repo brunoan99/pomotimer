@@ -1,8 +1,8 @@
 import '../styles/globals.css'
 import type { Metadata } from 'next'
-import { cn } from "@/lib/utils"
 import { Inter as FontSans } from 'next/font/google'
 import { Providers } from '@/contexts/providers'
+import { cn } from '@/lib/utils'
 
 const fontSans = FontSans({ subsets: ['latin'], variable: "--font-sans" })
 
@@ -17,22 +17,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <link
-          rel="icon"
-          type="image/svg"
-          href="/assets/images/clock.svg"
-          sizes="any"
-        />
+        <link rel="icon" type="image/svg" href="/assets/images/clock.svg" />
       </head>
       <body className={cn(
-        "min-h-screen bg-background font-sans antialiased",
-        fontSans.variable)}
+        fontSans.variable,
+        "min-h-screen bg-background font-sans antialiased"
+        )}
       >
-      <Providers>
-        {children}
-      </Providers>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

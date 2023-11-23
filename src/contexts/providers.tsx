@@ -1,6 +1,7 @@
 "use client"
 
-import { ThemeProvider } from "@/contexts/theme-provider"
+import dynamic from "next/dynamic"
+const ThemeProvider = dynamic(() => import('./theme-provider'), { ssr: false })
 import { TimeProvider } from "@/contexts/time-provider"
 
 function Providers ({
@@ -9,15 +10,16 @@ function Providers ({
   children: React.ReactNode
 }) {
   return (
-    <TimeProvider>
-      <ThemeProvider
-        attribute="data-theme"
-        defaultTheme='system'
-        enableSystem
-      >
-        {children}
-      </ThemeProvider>
-    </TimeProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableColorScheme={false}
+      enableSystem
+    >
+      <TimeProvider>
+          {children}
+      </TimeProvider>
+    </ThemeProvider>
   )
 }
 
