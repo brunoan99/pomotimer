@@ -34,14 +34,5 @@
     "eslint-config-next": "16.1.6",
     "postcss": "^8.5.32",
     "typescript": "^5.9.3"
-  },
-  "engines": {
-    "node": ">=24.x"
-  },
-  "pnpm": {
-    "overrides": {
-      "@types/react": "19.2.10",
-      "@types/react-dom": "19.2.3"
-    }
   }
 }
